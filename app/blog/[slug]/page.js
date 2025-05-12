@@ -238,16 +238,6 @@ export default function BlogPost() {
           {post.provider}
           <h4 className='text-green-600 font-bold'> {post.contact} </h4>
 
-          {/* Optional Link */}
-          {/* {post.link && (
-            <div className="mt-6">
-              <Link href={post.link}>
-                <button className="px-4 py-2 bg-blue-200 font-bold text-black rounded-lg hover:bg-green-300 transition">
-                  Learn More
-                </button>
-              </Link>
-            </div>
-          )} */}
 
           {/* Back Button */}
           <button
