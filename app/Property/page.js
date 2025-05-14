@@ -123,7 +123,7 @@ export default function HomePage() {
   return (
     <div onLoad={lazy} className="min-h-screen py-8 bg-gray-100">
       <div className="max-w-4xl mx-auto px-4">
-     <br /><br /><br />
+     <br /><br /><br /> <br /><br /><br />
 
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6 justify-center flex-wrap">

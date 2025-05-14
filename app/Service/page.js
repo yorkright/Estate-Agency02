@@ -40,9 +40,9 @@ export default function ServicesPage() {
 <>
 <br /><br /><br />
 
-<div className="bg-gray-50 min-h-screen">
+<div className="bg-gray-50 min-h-screen ">
       {/* Hero Section */}
-      <section className="bg-blue-600 text-white py-20 text-center">
+      <section className=" text-black bg-gradient-to-r from-blue-500 to-purple-500 py-20 text-center ">
         <h1 className="text-4xl font-bold mb-4">Our Real Estate Services</h1>
         <p className="text-lg max-w-2xl mx-auto">
           We provide a complete suite of services for buying, selling, and managing properties.
@@ -70,7 +70,7 @@ export default function ServicesPage() {
         <h2 className="text-2xl font-semibold mb-4">Need a Custom Service?</h2>
         <p className="text-gray-700 mb-6">Contact us today for a personalized consultation.</p>
         <a
-          href="/Contact"
+          href="/contact"
           className="inline-block bg-blue-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-700 transition"
         >
           Get in Touch

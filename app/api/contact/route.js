@@ -1,21 +1,15 @@
-import dbConnect from '@/config/mongodb';
-import Message from '@/model/Message';
+// app/api/contact/route.js
+import dbConnect from '@/lib/db';
+import Contact from '@/models/Contact';
 
 export async function POST(req) {
-  const { name, email, message } = await req.json();
-
-  if (!name || !email || !message) {
-    return new Response(JSON.stringify({ error: 'All fields are required' }), { status: 400 });
-  }
-
   try {
+    const body = await req.json();
     await dbConnect();
-    const newMessage = new Message({ name, email, message });
-    await newMessage.save();
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    const contact = await Contact.create(body);
+    return new Response(JSON.stringify(contact), { status: 201 });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ error: 'Server Error' }), { status: 500 });
+    return new Response(JSON.stringify({ error: 'Failed to submit contact form' }), { status: 500 });
   }
 }
-
