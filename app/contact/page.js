@@ -35,7 +35,7 @@ export default function ContactPage() {
   return (
     <>
 
-      <div className="min-h-screen mt-16 flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500">
+      <div className="min-h-screen mt-16 flex items-center justify-center bg-cover bg-no-repeat bg-[url('https://cdn.pixabay.com/photo/2019/02/13/09/59/contact-3994013_640.jpg')]">
         <div className="max-w-xl w-full p-8 bg-white rounded-2xl shadow-lg">
           <h1 className="text-3xl font-bold text-center mb-6">Contact an Agent</h1>
           <form onSubmit={handleSubmit} className="space-y-4">

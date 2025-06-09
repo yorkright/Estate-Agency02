@@ -1,8 +1,9 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import {
+  ClerkProvider
+} from '@clerk/nextjs'
 
 
 export const metadata = {
@@ -12,18 +13,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-     
-      >
-    <div className="min-h-[77vh]">
-        <Navbar/>
-        {children}
-     </div>
-        <Footer/>
-      </body>
+     <html>
+      <ClerkProvider>
+        <body>
+          <div className="min-h-[77vh]">
+            <Navbar/>
+            {children}
+          </div>
+          <Footer/>
+        </body>
+      </ClerkProvider>
     </html>
   );
 }
-
-
