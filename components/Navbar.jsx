@@ -38,12 +38,12 @@ const Navbar = () => {
              <SignedOut>
               <SignInButton>
                 <button className="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 transition-all duration-300">
-                  Sign In
+                  <abbr title="Sign In to your account" className="no-underline">Sign In</abbr>
                 </button>
               </SignInButton>
               <SignUpButton>
                 <button className="text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-all duration-300">
-                  Sign Up
+                  <abbr title="Create a new account" className="no-underline">Sign Up</abbr>
                 </button>
               </SignUpButton>
             </SignedOut>
