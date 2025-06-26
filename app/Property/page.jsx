@@ -150,25 +150,23 @@ const HomesForYou = () => {
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex justify-center gap-6 my-10">
-  
-        </div>
+        <div className="flex justify-center gap-6 my-10"></div>
 
         {/* Filtered from Database */}
         <div className="flex flex-wrap justify-around gap-1 gap-y-10 mb-16 xl:mx-24">
           {properties.map((item, index) => (
-              <PropertyItems
-                     key={index}
-      id={item._id}
-image={item.images?.[0] || "/h4.jpg"}
-      title={item.title}
-      description={item.description}
-      bedrooms={item.bedrooms}
-      bathrooms={item.bathrooms}
-      price={item.price}
-      location={item.location}
-              />
-            ))}
+            <PropertyItems
+              key={index}
+              id={item._id}
+              image={item.images?.[0] || "/h4.jpg"}
+              title={item.title}
+              description={item.description}
+              bedrooms={item.bedrooms}
+              bathrooms={item.bathrooms}
+              price={item.price}
+              location={item.location}
+            />
+          ))}
         </div>
       </div>
     </>

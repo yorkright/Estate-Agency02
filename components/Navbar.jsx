@@ -89,6 +89,11 @@ const Navbar = () => {
                 Listings
               </Link>
             </li>
+             <li>
+              <Link href="/samplepreperty" onClick={handleNavigation} className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">
+                Sample
+              </Link>
+            </li>
             <li>
               <Link href="/agents" onClick={handleNavigation} className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500">
                 Agent
