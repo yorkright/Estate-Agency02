@@ -15,7 +15,7 @@ const PropertySchema = new mongoose.Schema(
       type: Number,
       required: [true, "Price is required"],
     },
-     location: {
+    location: {
       type: String,
       required: [true, "Location is required"],
     },
@@ -33,10 +33,18 @@ const PropertySchema = new mongoose.Schema(
       required: true,
     },
 
-    images: {
-      type: [String], // Array of image URLs
-      default: [],
+    image: {
+      type: String, // Single image file path or URL
+      required: [true, "Property image is required"],
     },
+
+    video: {
+      type: String, // Optional video file path or URL
+      default: "",  // Empty by default if no video uploaded
+    },
+  },
+  {
+    timestamps: true,
   }
 );
 

@@ -4,23 +4,31 @@ import axios from "axios";
 import { FaBath, FaBed } from "react-icons/fa";
 import { LuRuler } from "react-icons/lu";
 import PropertyItems from "../../components/PropertyItem"; // ✅ CORRECT IMPORT
+import PropertiesList from "../../components/PropertyList";
 
 const HomesForYou = () => {
   // const [menu, setmenu] = useState("All");
   const [properties, setProperties] = useState([]);
 
-  const fetchproperty = async () => {
-    try {
-      const response = await axios.get("/api/properties");
-      setProperties(response.data.properties);
-    } catch (error) {
-      console.error("Error fetching properties:", error);
-    }
-  };
+ 
+    useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const res = await fetch("/api/properties");
+        const data = await res.json();
+        if (data.success) {
+          setProperties(data.properties);
+        } else {
+          setError(data.error || "Failed to load properties.");
+        }
+      } catch (err) {
+        setError("Network error: " + err.message);
+      }
+    };
+    fetchProperties();
+  }, []);
 
-  useEffect(() => {
-    fetchproperty();
-  }, []); // ✅ added dependency array
+
 
   const mockData = [
     {
@@ -36,7 +44,7 @@ const HomesForYou = () => {
     },
     {
       id: 2,
-      image: "/h2.jpg",
+      image: "/property5.jpg",
       title: "North Dillard Street",
       address: "4330 Bell Shoals Rd",
       price: "$250/month",
@@ -66,7 +74,7 @@ const HomesForYou = () => {
         <div
           style={{
             backgroundImage:
-              "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('https://media.istockphoto.com/id/1292569664/photo/3d-rendering-of-modern-house-in-luxurious-style-in-night.jpg')",
+              "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('https://www.shutterstock.com/image-vector/real-estate-concept-house-icon-arrow-2479106969')", // Use a local image if available
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -81,7 +89,7 @@ const HomesForYou = () => {
           </h3>
           <p className="text-lg md:text-xl font-serif max-w-2xl bg-white/80 text-gray-900 p-6 rounded-xl shadow-lg mb-4 text-center">
             Discover a curated selection of beautiful homes and investment
-            opportunities. Whether you’re searching for a cozy family house, a
+            opportunities. Whether you're searching for a cozy family house, a
             modern apartment, or a luxurious villa, we help you find the perfect
             property to match your dreams and lifestyle.
           </p>
@@ -101,64 +109,32 @@ const HomesForYou = () => {
           <p className="text-gray-500 mt-2">Based on your view history</p>
         </div>
 
-        {/* Static Homes (mock) */}
-        <div className="mt-10 flex flex-wrap justify-center gap-6">
-          {mockData.map((home) => (
-            <div
-              key={home.id}
-              className="bg-white rounded-xl shadow-md w-[300px] overflow-hidden border hover:shadow-lg transition"
+       {/* Filter Buttons */}
+        <div className="flex justify-center gap-6 my-10">
+          {["All", "FOR SALE", "FOR RENT", "FEATURED"].map((filter) => (
+            <button
+              key={filter}
+              className="bg-white border border-gray-300 px-6 py-2 rounded-full font-semibold text-gray-700 hover:bg-indigo-100 transition"
+              onClick={() => handleFilter(filter)}
             >
-              <div className="relative">
-                <img
-                  src={home.image}
-                  alt={home.title}
-                  className="w-full h-52 object-cover"
-                />
-                <div className="absolute top-2 left-2 flex gap-2">
-                  <span className="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">
-                    {home.status}
-                  </span>
-                  {home.tag && (
-                    <span className="bg-yellow-400 text-gray-800 text-xs font-bold px-2 py-1 rounded">
-                      {home.tag}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="text-md font-semibold text-gray-800">
-                  {home.title}
-                </h3>
-                <p className="text-sm text-gray-500">{home.address}</p>
-                <p className="text-red-500 font-bold text-lg mt-2">
-                  {home.price}
-                </p>
-                <div className="flex justify-between mt-4 text-gray-600 text-sm">
-                  <span className="flex items-center gap-1">
-                    <FaBed /> {home.beds} Beds
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <FaBath /> {home.baths} Baths
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <LuRuler /> {home.sqft} sqft
-                  </span>
-                </div>
-              </div>
-            </div>
+              {filter}
+            </button>
           ))}
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex justify-center gap-6 my-10"></div>
+
+        <div className="">
+          <PropertiesList/>
+        </div>
+
 
         {/* Filtered from Database */}
-        <div className="flex flex-wrap justify-around gap-1 gap-y-10 mb-16 xl:mx-24">
-          {properties.map((item, index) => (
+       {/* <div className="flex flex-wrap justify-around gap-1 gap-y-10 mb-16 xl:mx-24">
+          {(Array.isArray(properties) ? properties : []).map((item, index) => (
             <PropertyItems
-              key={index}
+              key={item._id || index}
               id={item._id}
-              image={item.images?.[0] || "/h4.jpg"}
+              image={item.image && item.image.length > 0 ? item.image[0] : "/h4.jpg"}
               title={item.title}
               description={item.description}
               bedrooms={item.bedrooms}
@@ -167,7 +143,7 @@ const HomesForYou = () => {
               location={item.location}
             />
           ))}
-        </div>
+        </div> */}
       </div>
     </>
   );

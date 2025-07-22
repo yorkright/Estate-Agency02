@@ -22,7 +22,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/80 z-0"></div>
           <div className="relative max-w-xl z-10">
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
-              Buy Your <span className="text-blue-200">Dream Home</span> Today
+              Buy Your<span className="text-blue-200">Dream Home</span> Today
             </h1>
             <p className="text-lg md:text-xl text-gray-200 mb-8">
               Explore the best properties in your desired location with the most trusted real estate platform.

@@ -1,11 +1,11 @@
 import React from "react";
 
-const PropertyItems = ({ id, image, title, description, bedrooms, bathrooms, price, location }) => {
+const PropertyItems = ({  image, title, description, bedrooms, bathrooms, price, location }) => {
   return (
     <div className="bg-white w-72 rounded-xl shadow-lg overflow-hidden border hover:shadow-xl transition">
       <img
         src={Array.isArray(image) ? image[0] : image}
-        alt={title}
+        // alt={title}
         className="w-full h-44 object-cover"
       />
       <div className="p-4">
