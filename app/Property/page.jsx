@@ -1,71 +1,34 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { FaBath, FaBed } from "react-icons/fa";
-import { LuRuler } from "react-icons/lu";
-import PropertyItems from "../../components/PropertyItem"; // ✅ CORRECT IMPORT
+// import axios from "axios";
+// import { FaBath, FaBed } from "react-icons/fa";
+// import { LuRuler } from "react-icons/lu";
+// import PropertyItems from "../../components/PropertyItem"; // ✅ CORRECT IMPORT
 import PropertiesList from "../../components/PropertyList";
 
 const HomesForYou = () => {
   // const [menu, setmenu] = useState("All");
-  const [properties, setProperties] = useState([]);
+  // const [properties, setProperties] = useState([]);
 
  
-    useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        const res = await fetch("/api/properties");
-        const data = await res.json();
-        if (data.success) {
-          setProperties(data.properties);
-        } else {
-          setError(data.error || "Failed to load properties.");
-        }
-      } catch (err) {
-        setError("Network error: " + err.message);
-      }
-    };
-    fetchProperties();
-  }, []);
+  //   useEffect(() => {
+  //   const fetchProperties = async () => {
+  //     try {
+  //       const res = await fetch("/api/properties");
+  //       const data = await res.json();
+  //       if (data.success) {
+  //         setProperties(data.properties);
+  //       } else {
+  //         setError(data.error || "Failed to load properties.");
+  //       }
+  //     } catch (err) {
+  //       setError("Network error: " + err.message);
+  //     }
+  //   };
+  //   fetchProperties();
+  // }, []);
 
 
-
-  const mockData = [
-    {
-      id: 1,
-      image: "/h1.jpg",
-      title: "Skyper Pool Apartment",
-      address: "1020 Bloomingdale Ave",
-      price: "$280,000",
-      status: "FOR SALE",
-      beds: 4,
-      baths: 2,
-      sqft: 450,
-    },
-    {
-      id: 2,
-      image: "/property5.jpg",
-      title: "North Dillard Street",
-      address: "4330 Bell Shoals Rd",
-      price: "$250/month",
-      status: "FOR RENT",
-      beds: 4,
-      baths: 2,
-      sqft: 400,
-    },
-    {
-      id: 3,
-      image: "/h4.jpg",
-      title: "Eaton Garth Penthouse",
-      address: "7722 18th Ave, Brooklyn",
-      price: "$180,000",
-      status: "FOR SALE",
-      tag: "FEATURED",
-      beds: 4,
-      baths: 2,
-      sqft: 450,
-    },
-  ];
 
   return (
     <>
