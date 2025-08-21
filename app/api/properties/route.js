@@ -12,7 +12,6 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 
-
 const uploadsDir = path.join(process.cwd(), "public", "uploads");
 async function ensureUploadsDir() {
   try {
