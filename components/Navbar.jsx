@@ -1,118 +1,259 @@
 'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   SignInButton,
   SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
-} from '@clerk/nextjs'
+} from '@clerk/nextjs';
+
+const NAV_ITEMS = [
+  { label: 'Listings', href: '/Property' },
+  { label: 'Sample', href: '/samplepreperty' },
+  { label: 'Agent', href: '/agents' },
+  { label: 'Services', href: '/Service' },
+  { label: 'Contact', href: '/contact' },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const pathname = usePathname();
 
-  // Close mobile menu and scroll to saved position
+  React.useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = '';
+      }
+    };
+  }, [isOpen]);
+
   const handleNavigation = () => {
     setIsOpen(false);
     if (typeof window !== 'undefined') {
-      // Optional: Smooth scroll to top if you want
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
+  const isActive = (href) =>
+    href === '/' ? pathname === '/' : pathname && pathname.startsWith(href);
+
   return (
-    <nav className="bg-slate-950 dark:bg-gray-900 fixed w-full z-10 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        
-        <Link href="/" onClick={handleNavigation}>
-          <h2 className="text-2xl animate-bounce mt-3 font-serif text-center text-gray-100">
-            BUY-YOUR-<span className="text-5xl text-green-500">D</span>REAM
-          </h2>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-gray-200/60 bg-slate-950/80 backdrop-blur supports-[backdrop-filter]:bg-slate-950/60 dark:bg-gray-900/80 dark:border-gray-700">
+      <nav
+        className="mx-auto flex max-w-screen-xl items-center justify-between px-4 py-3 md:px-6"
+        aria-label="Main"
+      >
+        {/* Brand */}
+        <Link
+          href="/"
+          onClick={handleNavigation}
+          className="group inline-flex items-center gap-2"
+          aria-label="Go to home"
+        >
+          <span className="sr-only">BUY YOUR DREAM</span>
+          <h1 className="text-xl font-serif tracking-wide text-gray-100 md:text-2xl">
+            BUY-YOUR-
+            <span className="text-3xl text-green-500 transition-transform duration-300 group-hover:scale-110 md:text-4xl">
+              D
+            </span>
+            REAM
+          </h1>
         </Link>
 
-        <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-             <SignedOut>
-              <SignInButton>
-                <button className="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 transition-all duration-300">
-                  <abbr title="Sign In to your account" className="no-underline">Sign In</abbr>
-                </button>
-              </SignInButton>
-              <SignUpButton>
-                <button className="text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-all duration-300">
-                  <abbr title="Create a new account" className="no-underline">Sign Up</abbr>
-                </button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+        {/* Right: Auth + Toggle */}
+        <div className="flex items-center gap-2 md:gap-3">
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button
+                className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white outline-none ring-green-300 transition-all hover:bg-green-700 focus-visible:ring-4 md:px-5"
+                aria-label="Sign in"
+              >
+                <abbr title="Sign In to your account" className="no-underline">
+                  Sign In
+                </abbr>
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button
+                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white outline-none ring-emerald-300 transition-all hover:bg-emerald-700 focus-visible:ring-4 md:px-5"
+                aria-label="Sign up"
+              >
+                <abbr title="Create a new account" className="no-underline">
+                  Sign Up
+                </abbr>
+              </button>
+            </SignUpButton>
+          </SignedOut>
 
+          <SignedIn>
+            <UserButton appearance={{ elements: { avatarBox: 'w-8 h-8' } }} />
+          </SignedIn>
+
+          {/* Mobile toggle */}
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen((v) => !v)}
             type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-2xl text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-sticky"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-300 hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 md:hidden"
+            aria-controls="primary-navigation"
             aria-expanded={isOpen}
+            aria-label="Toggle navigation menu"
           >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
+            {isOpen ? (
+              <svg
+                className="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 17 14"
+                aria-hidden="true"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M1 1h15M1 7h15M1 13h15"
+                />
+              </svg>
+            )}
           </button>
         </div>
 
-        <div
-          className={`items-center justify-between ${
-            isOpen ? 'block' : 'hidden'
-          } w-full md:flex md:w-auto md:order-1`}
-          id="navbar-sticky"
-        >
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-bold border rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <Link href="/Property" onClick={handleNavigation} className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">
-                Listings
-              </Link>
-            </li>
-             <li>
-              <Link href="/samplepreperty" onClick={handleNavigation} className="block py-2 px-3 text-white rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">
-                Sample
-              </Link>
-            </li>
-            <li>
-              <Link href="/agents" onClick={handleNavigation} className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500">
-                Agent
-              </Link>
-            </li>
-            <li>
-              <Link href="/Service" onClick={handleNavigation} className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500">
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" onClick={handleNavigation} className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500">
-                Contact
-              </Link>
-            </li>
+        {/* Desktop menu */}
+        <div className="hidden md:block md:grow md:basis-0">
+          <ul id="primary-navigation" className="flex items-center justify-center gap-6">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  prefetch={item.prefetch}
+                  onClick={handleNavigation}
+                  className={[
+                    'rounded-md px-2 py-1.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400',
+                    isActive(item.href)
+                      ? 'text-blue-400'
+                      : 'text-gray-100 hover:text-blue-300',
+                  ].join(' ')}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
+      </nav>
+
+      {/* Mobile slide-over menu */}
+      <div
+        className={['md:hidden', 'fixed inset-0 z-40', isOpen ? 'pointer-events-auto' : 'pointer-events-none'].join(' ')}
+        aria-hidden={!isOpen}
+      >
+        {/* Backdrop */}
+        <div
+          className={['absolute inset-0 bg-black/40 transition-opacity', isOpen ? 'opacity-100' : 'opacity-0'].join(' ')}
+          onClick={() => setIsOpen(false)}
+        />
+
+        {/* Panel */}
+        <div
+          className={[
+            'absolute left-0 top-0 h-full w-72 max-w-[85vw] transform bg-slate-900 shadow-xl ring-1 ring-black/10 transition-transform duration-300 ease-in-out',
+            isOpen ? 'translate-x-0' : '-translate-x-full',
+          ].join(' ')}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+            <Link href="/" onClick={handleNavigation} className="text-lg font-serif text-gray-100">
+              BUY-YOUR-<span className="text-2xl text-green-500">D</span>REAM
+            </Link>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md text-gray-300 hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400"
+              aria-label="Close menu"
+            >
+              <svg
+                className="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <nav className="px-2 py-3">
+            <ul className="flex flex-col gap-1">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    prefetch={item.prefetch}
+                    onClick={handleNavigation}
+                    className={[
+                      'block rounded-md px-3 py-2 text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400',
+                      isActive(item.href) ? 'bg-blue-600/20 text-blue-300' : 'text-gray-100 hover:bg-white/5',
+                    ].join(' ')}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-4 flex items-center gap-2 border-t border-white/10 pt-4">
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button className="w-full rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white outline-none ring-green-300 transition hover:bg-green-700 focus-visible:ring-4">
+                    Sign In
+                  </button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <button className="w-full rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white outline-none ring-emerald-300 transition hover:bg-emerald-700 focus-visible:ring-4">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <UserButton appearance={{ elements: { avatarBox: 'w-8 h-8' } }} />
+              </SignedIn>
+            </div>
+          </nav>
+        </div>
       </div>
-    </nav>
+    </header>
   );
 };
 
